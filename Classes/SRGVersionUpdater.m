@@ -73,19 +73,23 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 }
 
 - (NSString *) alertTitle {
-    return _customAlertTitle ? _customAlertTitle : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.title"];
+//    return _customAlertTitle ? _customAlertTitle : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.title"];
+    return _customAlertTitle ? _customAlertTitle : @"アップデートがあります"
 }
 
 - (NSString *) alertBody {
-    return _customAlertBody ? _customAlertBody : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.body"];
+//    return _customAlertBody ? _customAlertBody : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.body"];
+    return _customAlertBody ? _customAlertBody : @"最新バージョンのアプリが公開されています。AppStoreで最新のアプリにアップデートしましょう！"
 }
 
 - (NSString *) updateButtonText {
-    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.updateButton"];
+//    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.updateButton"];
+    return @"AppStoreへ"
 }
 
 - (NSString *) cancelButtonText {
-    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.calcelButton"];
+//    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.calcelButton"];
+    return @"あとで"
 }
 
 - (NSInteger) versionNumberFromString:(NSString *)versionString{
