@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency 'UIAlertView+Blocks'
-  s.dependency 'AFNetworking', '3.0.4'
+  s.dependency 'AFNetworking', '~> 2.6.3'
 end
