@@ -7,7 +7,7 @@
 //
 
 #import "SRGVersionUpdater.h"
-#import "UIAlertView+BlocksKit.h"
+#import "UIAlertView+Blocks/UIAlertView+Blocks.h"
 #import "AFHTTPRequestOperationManager.h"
 
 @implementation SRGVersionUpdater {
@@ -48,22 +48,18 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 }
 
 - (void) showUpdateAnnounce {
-    UIAlertView *alert = [UIAlertView
-                          bk_alertViewWithTitle:[self alertTitle]
-                          message:[self alertBody]
-                          ];
-    
-    [alert bk_addButtonWithTitle:[self updateButtonText]
-                         handler:^(void) {
-                             NSURL *updateUrl = [NSURL URLWithString:versionInfo[@"update_url"]];
-                             [[UIApplication sharedApplication] openURL:updateUrl];
-                         }];
-    
-    if([versionInfo[@"type"] isEqualToString:@"optional"]){
-        [alert addButtonWithTitle: [self cancelButtonText]];
-    }
-    
-    [alert show];
+    BOOL hasCancelButton = [versionInfo[@"type"] isEqualToString:@"optional"];
+    NSInteger updateIndex = hasCancelButton ? 1 : 0;
+    [UIAlertView showWithTitle:[self alertTitle]
+                       message:[self alertBody]
+             cancelButtonTitle:hasCancelButton ? [self cancelButtonText] : nil
+             otherButtonTitles:@[[self updateButtonText]]
+                      tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex){
+                          if (buttonIndex == updateIndex) {
+                              NSURL *updateUrl = [NSURL URLWithString:versionInfo[@"update_url"]];
+                              [[UIApplication sharedApplication] openURL:updateUrl];
+                          }
+                      }];
 }
 
 - (NSString *) alertTitle {

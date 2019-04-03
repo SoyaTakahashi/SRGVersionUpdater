@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.resources    = 'SRGVersionUpdater.bundle'
   s.requires_arc = true
 
-  s.dependency 'BlocksKit'
+  s.dependency 'UIAlertView+Blocks'
   s.dependency 'AFNetworking'
 end
