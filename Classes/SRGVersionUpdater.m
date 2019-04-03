@@ -27,7 +27,7 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"application/json",nil];
     [manager GET:_endPointUrl parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             versionInfo = responseObject;
+             self->versionInfo = responseObject;
              [self showUpdateAnnounceIfNeeded];
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Request Operation Error! %@", error);
@@ -46,13 +46,8 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
     NSString *currentVersion  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *requiredVersion = versionInfo[@"required_version"];
     
-    if(versionInfo[@"title"]){
-        _customAlertTitle = versionInfo[@"title"];
-    }
-    
-    if(versionInfo[@"body"]){
-        _customAlertBody = versionInfo[@"body"];
-    }
+    if (versionInfo[@"title"]) { _customAlertTitle = versionInfo[@"title"]; }
+    if (versionInfo[@"body"]) { _customAlertBody = versionInfo[@"body"]; }
     
     return ( [requiredVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending );
 }
@@ -66,7 +61,7 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
              otherButtonTitles:@[[self updateButtonText]]
                       tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex){
                           if (buttonIndex == updateIndex) {
-                              NSURL *updateUrl = [NSURL URLWithString:versionInfo[@"update_url"]];
+                              NSURL *updateUrl = [NSURL URLWithString:self->versionInfo[@"update_url"]];
                               [[UIApplication sharedApplication] openURL:updateUrl];
                           }
                       }];
@@ -74,22 +69,22 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 
 - (NSString *) alertTitle {
 //    return _customAlertTitle ? _customAlertTitle : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.title"];
-    return _customAlertTitle ? _customAlertTitle : @"アップデートがあります"
+    return _customAlertTitle ? _customAlertTitle : @"アップデートがあります";
 }
 
 - (NSString *) alertBody {
 //    return _customAlertBody ? _customAlertBody : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.body"];
-    return _customAlertBody ? _customAlertBody : @"最新バージョンのアプリが公開されています。AppStoreで最新のアプリにアップデートしましょう！"
+    return _customAlertBody ? _customAlertBody : @"最新バージョンのアプリが公開されています。AppStoreで最新のアプリにアップデートしましょう！";
 }
 
 - (NSString *) updateButtonText {
 //    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.updateButton"];
-    return @"AppStoreへ"
+    return @"AppStoreへ";
 }
 
 - (NSString *) cancelButtonText {
 //    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.calcelButton"];
-    return @"あとで"
+    return @"あとで";
 }
 
 - (NSInteger) versionNumberFromString:(NSString *)versionString{
