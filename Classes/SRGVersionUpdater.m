@@ -46,6 +46,14 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
     NSString *currentVersion  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *requiredVersion = versionInfo[@"required_version"];
     
+    if(versionInfo[@"title"]){
+        _customAlertTitle = versionInfo[@"title"];
+    }
+    
+    if(versionInfo[@"body"]){
+        _customAlertBody = versionInfo[@"body"];
+    }
+    
     return ( [requiredVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending );
 }
 
