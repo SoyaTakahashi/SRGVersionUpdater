@@ -7,7 +7,7 @@
 //
 
 #import "SRGVersionUpdater.h"
-#import "UIAlertView+Blocks/UIAlertView+Blocks.h"
+#import "UIAlertView+Blocks.h"
 #import "AFHTTPRequestOperationManager.h"
 
 @implementation SRGVersionUpdater {
