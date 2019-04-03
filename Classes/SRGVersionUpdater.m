@@ -8,7 +8,7 @@
 
 #import "SRGVersionUpdater.h"
 #import "UIAlertView+BlocksKit.h"
-#import "AFHTTPSessionManager.h"
+#import "AFHTTPRequestOperationManager.h"
 
 @implementation SRGVersionUpdater {
     NSDictionary *versionInfo;
@@ -21,16 +21,17 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 
 - (void) executeVersionCheck {
     NSAssert(_endPointUrl, @"Set EndPointUrl Before Execute Check");
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+
+    AFHTTPRequestOperationManager* manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"application/json",nil];
-    [manager GET:_endPointUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        versionInfo = responseObject;
-        [self showUpdateAnnounceIfNeeded];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"Request Operation Error! %@", error);
-    }];
+    [manager GET:_endPointUrl parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             versionInfo = responseObject;
+             [self showUpdateAnnounceIfNeeded];
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Request Operation Error! %@", error);
+         }
+     ];
 }
 
 - (void) showUpdateAnnounceIfNeeded {
