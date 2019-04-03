@@ -21,8 +21,9 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 
 - (void) executeVersionCheck {
     NSAssert(_endPointUrl, @"Set EndPointUrl Before Execute Check");
-
+    
     AFHTTPRequestOperationManager* manager = [AFHTTPRequestOperationManager manager];
+    [manager.requestSerializer setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"application/json",nil];
     [manager GET:_endPointUrl parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -44,6 +45,7 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 - (BOOL) isVersionUpNeeded {
     NSString *currentVersion  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *requiredVersion = versionInfo[@"required_version"];
+    
     return ( [requiredVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending );
 }
 
